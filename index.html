@@ -2,6 +2,8 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Você me ama?</title>
 
 <!-- Fonte pixel -->
@@ -10,41 +12,73 @@
 <style>
 body {
     margin: 0;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ff9ecf, #ffc0cb);
+    background: #ffd6e7;
     font-family: Arial;
-    text-align: center;
+    overflow: hidden;
 }
 
-h1 {
-    margin-top: 120px;
-    font-size: 24px;
+/* Centralização */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* BALÃO */
+.balao {
+    background: #ff4da6;
     color: white;
+    padding: 30px 20px;
+    border-radius: 25px;
+    position: relative;
     font-family: 'Press Start 2P', cursive;
-    text-shadow: 3px 3px #ff4da6;
+    font-size: 16px;
+    text-align: center;
+    max-width: 80%;
+    box-shadow: 4px 4px 0px #d63384;
+}
+
+/* rabinho do balão */
+.balao::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 30px;
+    border-width: 20px 20px 0;
+    border-style: solid;
+    border-color: #ff4da6 transparent;
+}
+
+/* Botões */
+.botoes {
+    margin-top: 40px;
 }
 
 button {
-    padding: 15px 25px;
-    font-size: 16px;
+    padding: 12px 20px;
+    font-size: 14px;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     margin: 10px;
 }
 
+/* SIM */
 #simBtn {
     background-color: #ff4da6;
     color: white;
-    position: relative;
 }
 
+/* NÃO */
 #naoBtn {
     background-color: white;
     color: #ff4da6;
     position: absolute;
 }
 
+/* Corações */
 .heart {
     position: absolute;
     animation: subir 5s linear infinite;
@@ -55,47 +89,70 @@ button {
     100% { transform: translateY(-10vh); opacity: 0; }
 }
 
+/* FINAL */
 #final {
     display: none;
-    font-size: 30px;
-    color: white;
-    margin-top: 150px;
     font-family: 'Press Start 2P', cursive;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    .balao {
+        font-size: 12px;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 12px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="pergunta">💖 VOCÊ ME AMA? 💖</h1>
+<div class="container">
 
-<button id="simBtn" onclick="aceitou()">Sim</button>
-<button id="naoBtn" onmouseover="fugir()">Não</button>
+    <div class="balao" id="pergunta">
+        💖 VOCÊ ME AMA? 💖
+    </div>
 
-<h1 id="final">💖 EU SABIA!!! 💖 😏</h1>
+    <div class="botoes">
+        <button id="simBtn" onclick="aceitou()">Sim</button>
+        <button id="naoBtn" ontouchstart="fugir()" onmouseover="fugir()">Não</button>
+    </div>
 
+    <div id="final">
+        💖 EU SABIA!!! 💖 😏
+    </div>
+
+</div>
+
+<!-- Música -->
 <audio id="musica" loop>
-<source src="musica.mp3">
+    <source src="musica.mp3">
 </audio>
 
 <script>
-let tamanho = 16;
+let tamanho = 14;
 
 function fugir() {
     let nao = document.getElementById("naoBtn");
     let sim = document.getElementById("simBtn");
 
-    nao.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    nao.style.left = Math.random() * (window.innerWidth - 80) + "px";
     nao.style.top = Math.random() * (window.innerHeight - 50) + "px";
 
-    tamanho += 3;
+    tamanho += 2;
     sim.style.fontSize = tamanho + "px";
 }
 
 function aceitou() {
     document.getElementById("pergunta").style.display = "none";
-    document.getElementById("simBtn").style.display = "none";
-    document.getElementById("naoBtn").style.display = "none";
+    document.querySelector(".botoes").style.display = "none";
 
     document.getElementById("final").style.display = "block";
     document.getElementById("musica").play();
